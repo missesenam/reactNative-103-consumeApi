@@ -1,0 +1,64 @@
+{
+  "flights": [
+    {
+      "id": 1,
+      "airline": "British Airways",
+      "from": "Accra (ACC)",
+      "to": "London (LHR)",
+      "date": "2025-10-15",
+      "departureTime": "21:30",
+      "arrivalTime": "05:40",
+      "duration": "7h 10m",
+      "price": 450,
+      "currency": "USD",
+      "stops": 0,
+      "class": "Economy",
+      "baggage": "23kg checked, 7kg cabin"
+    },
+    {
+      "id": 2,
+      "airline": "Air France",
+      "from": "Accra (ACC)",
+      "to": "Paris (CDG)",
+      "date": "2025-10-18",
+      "departureTime": "22:15",
+      "arrivalTime": "06:30",
+      "duration": "6h 15m",
+      "price": 390,
+      "currency": "USD",
+      "stops": 0,
+      "class": "Economy",
+      "baggage": "23kg checked, 7kg cabin"
+    },
+    {
+      "id": 3,
+      "airline": "Emirates",
+      "from": "Accra (ACC)",
+      "to": "Dubai (DXB)",
+      "date": "2025-10-20",
+      "departureTime": "18:45",
+      "arrivalTime": "05:25",
+      "duration": "7h 40m",
+      "price": 520,
+      "currency": "USD",
+      "stops": 0,
+      "class": "Economy",
+      "baggage": "30kg checked, 7kg cabin"
+    },
+    {
+      "id": 4,
+      "airline": "Delta Airlines",
+      "from": "Accra (ACC)",
+      "to": "New York (JFK)",
+      "date": "2025-11-05",
+      "departureTime": "23:00",
+      "arrivalTime": "05:50",
+      "duration": "11h 50m",
+      "price": 610,
+      "currency": "USD",
+      "stops": 0,
+      "class": "Economy",
+      "baggage": "23kg checked, 7kg cabin"
+    }
+  ]
+}

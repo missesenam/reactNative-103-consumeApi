@@ -49,6 +49,16 @@ const LayoutLayout = ({ children }) => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="CheapFlightsTracker"
+        options={{
+          drawerLabel: "Cheap Flights",
+          title: "Cheap Flights Tracker",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="airplane-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Drawer>
   );
 };
