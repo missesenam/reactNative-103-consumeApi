@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.11.2",
     "@react-navigation/drawer": "^7.5.8",
     "expo": "~54.0.10",
     "expo-constants": "~18.0.9",

@@ -49,10 +49,6 @@ const LayoutLayout = ({ children }) => {
           ),
         }}
       />
-      <Stack.Screen
-        name="HolidaysResults"
-        options={{ headerShown: false, presentation: "modal" }}
-      />
     </Drawer>
   );
 };
