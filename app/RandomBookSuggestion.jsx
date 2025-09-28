@@ -3,25 +3,39 @@ import {
   Text,
   View,
   FlatList,
-  Image,
-  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import BookCard from "../components/RandomBookSuggestion/BookCard"; // adjust path if needed
 
 const RandomBookSuggestion = () => {
   const [books, setBooks] = useState([]);
-  const [expanded, setExpanded] = useState({}); // track expanded state per book
+  const [expanded, setExpanded] = useState({});
+  const [page, setPage] = useState(0); // pagination: start index
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // stop when no more books
 
+  // 🔹 fetch books with pagination
   const fetchBooks = async () => {
+    if (loading || !hasMore) return; // avoid duplicate requests
+
+    setLoading(true);
     try {
       const res = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=fiction`
+        `https://www.googleapis.com/books/v1/volumes?q=fiction&startIndex=${page}&maxResults=10`
       );
-      setBooks(res.data.items || []);
+
+      if (res.data.items && res.data.items.length > 0) {
+        setBooks((prev) => [...prev, ...res.data.items]); // append new results
+        setPage((prev) => prev + 10); // increase page by 10
+      } else {
+        setHasMore(false); // no more books available
+      }
     } catch (error) {
       console.error("Error fetching books:", error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -35,57 +49,27 @@ const RandomBookSuggestion = () => {
     }));
   };
 
-  const renderBook = ({ item }) => {
-    const { title, authors, description, imageLinks } = item.volumeInfo;
-    const isExpanded = expanded[item.id] || false;
-
-    return (
-      <View style={styles.card}>
-        {/* Book Cover */}
-        {imageLinks?.thumbnail && (
-          <Image
-            source={{ uri: imageLinks.thumbnail }}
-            style={styles.thumbnail}
-          />
-        )}
-
-        {/* Book Info */}
-        <View style={styles.info}>
-          <Text style={styles.title}>{title}</Text>
-          {authors && (
-            <Text style={styles.authors}>by {authors.join(", ")}</Text>
-          )}
-
-          {/* Description */}
-          {isExpanded ? (
-            <Text style={styles.description}>
-              {description || "No description"}
-            </Text>
-          ) : (
-            <Text style={styles.description} numberOfLines={2}>
-              {description || "No description"}
-            </Text>
-          )}
-
-          {/* Expand/Collapse Button */}
-          <TouchableOpacity onPress={() => toggleExpand(item.id)}>
-            <Text style={styles.toggle}>
-              {isExpanded ? "↑ See less" : "↓ See more"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>📚 Book Suggestions</Text>
+
       <FlatList
         data={books}
-        renderItem={renderBook}
+        renderItem={({ item }) => (
+          <BookCard
+            item={item}
+            isExpanded={expanded[item.id] || false}
+            toggleExpand={toggleExpand}
+          />
+        )}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
+        onEndReached={fetchBooks} // 🔹 load more when reaching end
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loading ? <ActivityIndicator size="large" color="#333" /> : null
+        }
       />
     </View>
   );
@@ -105,46 +89,5 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textAlign: "center",
     color: "#333",
-  },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    marginBottom: 16,
-    flexDirection: "row",
-    padding: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  thumbnail: {
-    width: 80,
-    height: 120,
-    borderRadius: 8,
-    marginRight: 12,
-  },
-  info: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#222",
-  },
-  authors: {
-    fontSize: 14,
-    fontStyle: "italic",
-    marginBottom: 6,
-    color: "#666",
-  },
-  description: {
-    fontSize: 13,
-    color: "#444",
-    marginBottom: 6,
-  },
-  toggle: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#007BFF",
   },
 });

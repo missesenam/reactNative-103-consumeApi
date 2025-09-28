@@ -1,7 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import { useRouter } from "expo-router";
 
 const Home = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -13,7 +16,10 @@ const Home = () => {
       </Text>
 
       {/* CTA Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/CheapFlightsTracker")}
+      >
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
     </View>

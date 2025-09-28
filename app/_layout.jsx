@@ -59,6 +59,16 @@ const LayoutLayout = ({ children }) => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="RandomBookSuggestion"
+        options={{
+          drawerLabel: "Random Books",
+          title: "Books",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="book-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Drawer>
   );
 };
